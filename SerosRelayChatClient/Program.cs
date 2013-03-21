@@ -15,7 +15,17 @@ namespace SerosRelayChatClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Form1 loginForm = new Form1();
+
+            Application.Run(loginForm);
+            if (loginForm.done == true)
+            {
+                Container con = new Container();
+                con.clientSocket = loginForm.clientSocket;
+                con.Username = loginForm.Username;
+                con.ShowDialog();
+            }
+            
         }
     }
 }

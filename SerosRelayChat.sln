@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerosRelayChatServer", "SerosRelayChatServer\SerosRelayChatServer.csproj", "{54DC10CD-57F3-4FC3-AA67-DFA2D5732E25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerosRelayChatClient", "SerosRelayChatClient\SerosRelayChatClient.csproj", "{7B068D59-1B65-4A78-B431-5B15219347E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{54DC10CD-57F3-4FC3-AA67-DFA2D5732E25}.Debug|x86.Build.0 = Debug|x86
 		{54DC10CD-57F3-4FC3-AA67-DFA2D5732E25}.Release|x86.ActiveCfg = Release|x86
 		{54DC10CD-57F3-4FC3-AA67-DFA2D5732E25}.Release|x86.Build.0 = Release|x86
+		{7B068D59-1B65-4A78-B431-5B15219347E2}.Debug|x86.ActiveCfg = Debug|x86
+		{7B068D59-1B65-4A78-B431-5B15219347E2}.Debug|x86.Build.0 = Debug|x86
+		{7B068D59-1B65-4A78-B431-5B15219347E2}.Release|x86.ActiveCfg = Release|x86
+		{7B068D59-1B65-4A78-B431-5B15219347E2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
