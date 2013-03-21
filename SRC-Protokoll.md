@@ -2,7 +2,7 @@
 
 Ankommende Pakete sind im folgenden Format:
 
-<Username[:Raum]> <Kommando> <Argument> \CR\LF
+	<Username[:Raum]> <Kommando> <Argument> \CR\LF
 
 Kommandos haben unterschiedlich viele Argumente. Ein Paket muss mit CR-LF beendet werden.
 Die Lücken zwischen den Username, Kommando und Argumenten sind mit einem Space (0x20) zu trennen.
