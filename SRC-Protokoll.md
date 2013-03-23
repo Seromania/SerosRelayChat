@@ -5,9 +5,9 @@ Ankommende Pakete sind im folgenden Format:
 	<Username[:Raum]> <Kommando> <Argument> \CR\LF
 
 * Kommandos haben unterschiedlich viele Argumente. Ein Paket muss mit CR-LF beendet werden.
-  Die L�cken zwischen den Username, Kommando und Argumenten sind mit einem Space (0x20) zu trennen.
-* Daten werden im UTF-8 Format als Byte �bertragen. 
-* Usernames d�rfen folgende Zeichen NICHT im Namen tragen:
+  Die Lücken zwischen den Username, Kommando und Argumenten sind mit einem Space (0x20) zu trennen.
+* Daten werden im UTF-8 Format als Byte Übertragen. 
+* Usernames dürfen folgende Zeichen NICHT im Namen tragen:
 	* Space (0x20)
 	* CR oder LF
 * Der Username System ist dem Server vorbehalten und darf NICHT vergeben werden!
@@ -19,7 +19,7 @@ LOGIN: Der erste Befehl der kommen muss!
 		vonUser LOGIN
 		
 	Server->Client:
-		System LOGIN Begr��ungstext
+		System LOGIN Begrüßungstext
 		
 SEND:   Sendet eine Nachricht in den Raum. 
 
@@ -29,7 +29,7 @@ SEND:   Sendet eine Nachricht in den Raum.
 	Server->Client:
 		vonUser:InChannel SEND Dies ist ein Text
 		
-	�bergeben wird ein Argument. Der Text wird als ein Argument angesehen
+	übergeben wird ein Argument. Der Text wird als ein Argument angesehen
 	
 WHISPER: Sendet eine Nachricht an die Person im ersten Argument
 
@@ -64,7 +64,7 @@ KICK:	Kickt den User im ersten Argument
 	Server->Client:
 		zuUser:InChannel LEAVE REASON
 		
-		!!Dieser Befehl ben�tigt MOD-Rechte!!
+		!!Dieser Befehl benötigt MOD-Rechte!!
 		
 BAN:	Bant den User im ersten Argument
 
@@ -74,7 +74,7 @@ BAN:	Bant den User im ersten Argument
 	Server->Client:
 		zuUser:InChannel LEAVE REASON
 		
-		!!Dieser Befehl ben�tigt OP-Rechte!!
+		!!Dieser Befehl benötigt OP-Rechte!!
 		
 MOD:	User im ersten Argument wird Mod
 
@@ -85,7 +85,7 @@ MOD:	User im ersten Argument wird Mod
 		zuUser:InChannel NAMECHNG #zuUser
 		Argument ist der neue Name
 		
-		!!Dieser Befehl ben�tigt OP-Rechte!!
+		!!Dieser Befehl benötigt OP-Rechte!!
 
 VOICE:	User im ersten Argument bekommt Voice-Rechte
 
@@ -94,7 +94,7 @@ VOICE:	User im ersten Argument bekommt Voice-Rechte
 		
 	Server->Client:
 		zuUser:InChannel NAMECHNG +zuUser
-		!!Dieser Befehl ben�tigt MOD-Rechte!!
+		!!Dieser Befehl benötigt MOD-Rechte!!
 		
 OP:		User im ersten Argument wird OP
 
@@ -104,7 +104,7 @@ OP:		User im ersten Argument wird OP
 	Server->Client:
 		zuUser:InChannel NAMECHNG @zuUser
 		
-		!!Dieser Befehl ben�tigt OP-Rechte!!
+		!!Dieser Befehl benötigt OP-Rechte!!
 		
 UNMOD:	User im ersten Argument wird Mod-Rechten entzogen
 
@@ -114,7 +114,7 @@ UNMOD:	User im ersten Argument wird Mod-Rechten entzogen
 	Server-Client:
 		zuUser:InChannel NAMECHNG zuUser
 		
-		!!Dieser Befehl ben�tigt OP-Rechte!!
+		!!Dieser Befehl benötigt OP-Rechte!!
 
 DEOP:	User im ersten Argument wird OP-Rechte entzogen
 
@@ -124,9 +124,9 @@ DEOP:	User im ersten Argument wird OP-Rechte entzogen
 	Server->Client:
 		zuUser:InChannel NAMECHNG zuUser
 		
-		!!Dieser Befehl ben�tigt OP-Rechte!!
+		!!Dieser Befehl benötigt OP-Rechte!!
 
-CHNMOD: Channel-Modus wird ge�ndert. Im ersten Argument steht welcher Modus
+CHNMOD: Channel-Modus wird geändert. Im ersten Argument steht welcher Modus
 
 	Bsp:
 		vonUser:InChannel CHNMOD <Flag>
@@ -135,7 +135,7 @@ CHNMOD: Channel-Modus wird ge�ndert. Im ersten Argument steht welcher Modus
 			v: Voice Modus (Jeder mit Voice kann schreiben)
 			m: Moderator Modus (Jeder mit Moderator kann schreiben)
 			
-		!!Dieser Befehl ben�tigt OP-Rechte!!
+		!!Dieser Befehl benötigt OP-Rechte!!
 		
 TOPIC: Zeigt den Topic des Channels an oder setzt es
 
@@ -145,7 +145,7 @@ TOPIC: Zeigt den Topic des Channels an oder setzt es
 		vonUser:InChannel TOPIC Neues Topic
 			Setzt den Topic
 			
-		!!Dieser Befehl ben�tigt MOD-Rechte!!
+		!!Dieser Befehl benötigt MOD-Rechte wenn Topic geändert werden soll!!
 	
 	Server->Client:
 		InChannel TOPIC TopicNachricht
@@ -160,7 +160,7 @@ PONG:  Antwort auf Ping mit gegebener Nummer (Client->Server)
 	Bsp:
 		vonUser PONG 1234
 		
-LEAVE: User verl�sst den Channel
+LEAVE: User verlässt den Channel
 
 	Bsp:
 		vonUser:InChannel LEAVE Leave Grund
@@ -168,7 +168,7 @@ LEAVE: User verl�sst den Channel
 	Server->Client:
 		vonUser:InChannel LEAVE Leave Grund
 		
-NAMECHNG: User �ndert sein Username
+NAMECHNG: User ändert sein Username
 
 	Bsp:
 		vonUser:InChannel NAMECHNG vonUserNewName
