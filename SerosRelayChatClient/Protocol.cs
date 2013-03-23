@@ -59,8 +59,8 @@ namespace SerosRelayChatClient
             result.AddRange(Encoding.UTF8.GetBytes(" "));
             foreach (String value in Arg)
             {
-                result.AddRange(Encoding.UTF8.GetBytes(value));
                 result.AddRange(Encoding.UTF8.GetBytes(" "));
+                result.AddRange(Encoding.UTF8.GetBytes(value));
             }
             result.AddRange(Encoding.UTF8.GetBytes("\r\n"));
 

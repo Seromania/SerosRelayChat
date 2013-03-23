@@ -29,6 +29,8 @@ namespace SerosRelayChatServer
         private Client matchClient;
         private Channel matchChannel;
 
+        private int ClientCount;
+
         /*
          * kommt ein Client und sendet LOGIN dann wird dieser in die Liste hinzugefügt
          * Wenn der Client eine Nachricht in ein Channel schreibt wird im Channellist überprüft
@@ -108,6 +110,9 @@ namespace SerosRelayChatServer
                         sendingMsg.Arg = new String[]{"Willkommen auf Seros Server"}; //ToDo Add Config Server Login Message
                         message = sendingMsg.ToByte();
                         clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
+                       
+                        ClientCount++;
+                        this.tlstr_client.Text = "Clients verbunden: " + ClientCount;
                         break;
 
                     case "JOIN":
@@ -202,8 +207,16 @@ namespace SerosRelayChatServer
                             sendingMsg.vonUser = Userstr[1];
                             sendingMsg.Command = recievedMsg.Command;
                             sendingMsg.Arg = new String[]{Userlist.ToString()};
-
+                            message = sendingMsg.ToByte();
+                            clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
+                            break;
                         }
+                        //Nein ist er nicht
+                        sendingMsg.vonUser = "System";
+                        sendingMsg.Command = "SEND";
+                        sendingMsg.Arg = new String[]{"Der Channel " + Userstr[1] + " existiert nicht!"};
+                        message = sendingMsg.ToByte();
+                        clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
                         break;
 
                     case "LEAVE":
@@ -276,6 +289,7 @@ namespace SerosRelayChatServer
         {
             try
             {
+                ClientCount = 0;
                 _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 8000);
@@ -311,5 +325,11 @@ namespace SerosRelayChatServer
             return StrBuilder.ToString();
         }
         #endregion
+
+        private void beendenToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
     }
 }
