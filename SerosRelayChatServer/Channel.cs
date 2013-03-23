@@ -8,10 +8,10 @@ namespace SerosRelayChatServer
     class Channel
     {
         private String _Channelname;
-        private List<Client> Clientlist;
-        private List<Client> ModList;
-        private List<Client> VoiceList;
-        private List<Client> OPList;
+        public List<Client> Clientlist;
+        public List<Client> ModList;
+        public List<Client> VoiceList;
+        public List<Client> OPList;
 
         public String Channelname
         {
@@ -22,6 +22,24 @@ namespace SerosRelayChatServer
         public Channel(String Channelname)
         {
             this._Channelname = Channelname;
+        }
+
+        public void addClient(Client client)
+        {
+            Clientlist.Add(client);
+        }
+
+        public void removeClient(String Username)
+        {
+            var Match = Clientlist.First(Client => Client.username == Username);
+        }
+
+        public Boolean isClientinChn(String Username)
+        {
+            var match = Clientlist.First(Client => Client.username == Username);
+            if (match != null)
+                return true;
+            return false;
         }
     }
 }

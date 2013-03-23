@@ -11,6 +11,7 @@ Ankommende Pakete sind im folgenden Format:
 	* Space (0x20)
 	* CR oder LF
 * Der Username System ist dem Server vorbehalten und darf NICHT vergeben werden!
+* Usernames d�rfen nicht zweimal vorkommen!
 
 ##Kommandos
 LOGIN: Der erste Befehl der kommen muss!
@@ -20,6 +21,9 @@ LOGIN: Der erste Befehl der kommen muss!
 		
 	Server->Client:
 		System LOGIN Begrüßungstext
+		
+	Ist Username schon vorhanden:
+		System REFUSE Grund
 		
 SEND:   Sendet eine Nachricht in den Raum. 
 
