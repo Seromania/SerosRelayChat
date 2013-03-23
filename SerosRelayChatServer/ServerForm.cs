@@ -30,7 +30,7 @@ namespace SerosRelayChatServer
          * ob der Client dort vorhanden ist.
          * 
          */
-
+        #region Delegates
         delegate void d_writeLog(String text);
         public void writeLog(String text)
         {
@@ -44,6 +44,9 @@ namespace SerosRelayChatServer
                 txt_log.Text += text;
             }
         }
+        #endregion
+
+
         private void onAccept(IAsyncResult ar)
         {
             try
@@ -71,14 +74,17 @@ namespace SerosRelayChatServer
 
                 Protocol recievedMsg = new Protocol(byteData);
                 Protocol sendingMsg = new Protocol();
+                
 
-                writeLog(recievedMsg.vonUser + " " + recievedMsg.Command + " "  + recievedMsg.Arg + "\n");
+                String Args = ConvertSringArrayToString(recievedMsg.Arg);
+                writeLog(recievedMsg.vonUser + " " + recievedMsg.Command + " "  + Args + "\n");
+                
                 switch (recievedMsg.Command)
                 {
                     case "LOGIN":
                         Client client = new Client(clientSocket,recievedMsg.vonUser);
-                        Clientlist.Add(client);
-                        sendingMsg.vonUser = "System";
+                        Clientlist.Add(client); //Den Client zum Server hinzufügen
+                        sendingMsg.vonUser = "System"; 
                         sendingMsg.Command = "LOGIN";
                         sendingMsg.Arg = new String[]{"Willkommen auf Seros Server"}; //ToDo Add Config Server Login Message
                         message = sendingMsg.ToByte();
@@ -138,14 +144,6 @@ namespace SerosRelayChatServer
             }
         }
 
-        private void writeError(String Error)
-        {
-            Console.WriteLine(">>   SRC ERROR   <<");
-            Console.WriteLine("===================");
-            Console.WriteLine(Error.ToString());
-            Console.WriteLine("===================");
-        }
-
         private void ServerForm_Load(object sender, EventArgs e)
         {
             try
@@ -164,5 +162,26 @@ namespace SerosRelayChatServer
                 writeError(ex.ToString());
             }
         }
+
+        #region anderes
+        private void writeError(String Error)
+        {
+            Console.WriteLine(">>   SRC ERROR   <<");
+            Console.WriteLine("===================");
+            Console.WriteLine(Error.ToString());
+            Console.WriteLine("===================");
+        }
+
+        private String ConvertSringArrayToString(String[] strArray)
+        {
+            StringBuilder StrBuilder = new StringBuilder();
+            foreach (String str in strArray)
+            {
+                StrBuilder.Append(str);
+                StrBuilder.Append(" ");
+            }
+            return StrBuilder.ToString();
+        }
+        #endregion
     }
 }

@@ -4,11 +4,17 @@ Ankommende Pakete sind im folgenden Format:
 
 	<Username[:Raum]> <Kommando> <Argument> \CR\LF
 
-Kommandos haben unterschiedlich viele Argumente. Ein Paket muss mit CR-LF beendet werden.
-Die Lücken zwischen den Username, Kommando und Argumenten sind mit einem Space (0x20) zu trennen.
+* Kommandos haben unterschiedlich viele Argumente. Ein Paket muss mit CR-LF beendet werden.
+  Die Lücken zwischen den Username, Kommando und Argumenten sind mit einem Space (0x20) zu trennen.
+* Daten werden im UTF-8 Format als Byte übertragen. 
+* Usernames dürfen folgende Zeichen NICHT im Namen tragen:
+		** Space (0x20)
+		** CR oder LF
+* Der Username System ist dem Server vorbehalten und darf NICHT vergeben werden!
 
 ##Kommandos
 LOGIN: Der erste Befehl der kommen muss!
+
 	Bsp:
 		vonUser LOGIN
 		
@@ -16,6 +22,7 @@ LOGIN: Der erste Befehl der kommen muss!
 		System LOGIN Begrüßungstext
 		
 SEND:   Sendet eine Nachricht in den Raum. 
+
 	Bsp: 
         vonUser:InChannel SEND Dies ist ein Text
 		
@@ -25,6 +32,7 @@ SEND:   Sendet eine Nachricht in den Raum.
 	Übergeben wird ein Argument. Der Text wird als ein Argument angesehen
 	
 WHISPER: Sendet eine Nachricht an die Person im ersten Argument
+
 	Bsp:
 		vonUser WHISPER zuUser Dies ist ein Text
 		
@@ -32,14 +40,16 @@ WHISPER: Sendet eine Nachricht an die Person im ersten Argument
 		vonUser WHISPER Dies ist ein Text
 
 JOIN:    Tritt den Raum im ersten Argument bei
+
 	Bsp:
 		vonUser JOIN #Channel
 		
 	Server->Client:
-		vonUser:InChannel JOINED
+		vonUser:InChannel JOIN
 		#Damit werden die Clients informiert, dass ein neuer User kam
 		
 LIST: Listet alle Benutzer im Channel auf
+
 	Bsp:
 		vonUser:InChannel LIST
 		
@@ -47,6 +57,7 @@ LIST: Listet alle Benutzer im Channel auf
 		InChannel LIST User(1),User(2),...User(n)
 
 KICK:	Kickt den User im ersten Argument
+
 	Bsp:
 		vonUser:InChannel KICK zuUser REASON
 		
@@ -56,6 +67,7 @@ KICK:	Kickt den User im ersten Argument
 		!!Dieser Befehl benötigt MOD-Rechte!!
 		
 BAN:	Bant den User im ersten Argument
+
 	Bsp:
 		vonUser:InChannel BAN zuUser REASON
 	
@@ -65,6 +77,7 @@ BAN:	Bant den User im ersten Argument
 		!!Dieser Befehl benötigt OP-Rechte!!
 		
 MOD:	User im ersten Argument wird Mod
+
 	Bsp:
 		vonUser:InChannel MOD zuUser
 		
@@ -75,6 +88,7 @@ MOD:	User im ersten Argument wird Mod
 		!!Dieser Befehl benötigt OP-Rechte!!
 
 VOICE:	User im ersten Argument bekommt Voice-Rechte
+
 	Bsp:
 		vonUser:InChannel VOICE zuUser
 		
@@ -83,6 +97,7 @@ VOICE:	User im ersten Argument bekommt Voice-Rechte
 		!!Dieser Befehl benötigt MOD-Rechte!!
 		
 OP:		User im ersten Argument wird OP
+
 	Bsp:
 		zuUser:InChannel OP zuUser
 		
@@ -92,6 +107,7 @@ OP:		User im ersten Argument wird OP
 		!!Dieser Befehl benötigt OP-Rechte!!
 		
 UNMOD:	User im ersten Argument wird Mod-Rechten entzogen
+
 	Bsp:
 	    vonUser:InChannel UNMOD zuUser
 		
@@ -101,6 +117,7 @@ UNMOD:	User im ersten Argument wird Mod-Rechten entzogen
 		!!Dieser Befehl benötigt OP-Rechte!!
 
 DEOP:	User im ersten Argument wird OP-Rechte entzogen
+
 	Bsp:
 		vonUser:InChannel DEOP zuUser
 		
@@ -110,6 +127,7 @@ DEOP:	User im ersten Argument wird OP-Rechte entzogen
 		!!Dieser Befehl benötigt OP-Rechte!!
 
 CHNMOD: Channel-Modus wird geändert. Im ersten Argument steht welcher Modus
+
 	Bsp:
 		vonUser:InChannel CHNMOD <Flag>
 		Flag:
@@ -120,6 +138,7 @@ CHNMOD: Channel-Modus wird geändert. Im ersten Argument steht welcher Modus
 		!!Dieser Befehl benötigt OP-Rechte!!
 		
 TOPIC: Zeigt den Topic des Channels an oder setzt es
+
 	Bsp:
 		vonUser:InChannel TOPIC
 			Zeigt den TOPIC an
@@ -131,16 +150,29 @@ TOPIC: Zeigt den Topic des Channels an oder setzt es
 	Server->Client:
 		InChannel TOPIC TopicNachricht
 		
-PING:  Sendet eine Ping abfrage mit random nummer (Server->Client)
+PING:  Sendet eine Ping abfrage mit random Nummer (Server->Client)
+
 	Bsp:
 		SERVER PING 1234 
 
 PONG:  Antwort auf Ping mit gegebener Nummer (Client->Server)
+
 	Bsp:
 		vonUser PONG 1234
 		
-## Kommandos von Server->Client
-vonUser:InChannel LEAVE REASON
-vonUser:InChannel JOINED
-vonUser:InChannel NAMECHNG vonUserNewName
+LEAVE: User verlässt den Channel
+
+	Bsp:
+		vonUser:InChannel LEAVE Leave Grund
+		
+	Server->Client:
+		vonUser:InChannel LEAVE Leave Grund
+		
+NAMECHNG: User ändert sein Username
+
+	Bsp:
+		vonUser:InChannel NAMECHNG vonUserNewName
+		
+	Server->Client:
+		vonUser:InChannel NAMECHNG vonUserNewName
 

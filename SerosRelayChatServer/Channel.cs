@@ -9,6 +9,10 @@ namespace SerosRelayChatServer
     {
         private String _Channelname;
         private List<Client> Clientlist;
+        private List<Client> ModList;
+        private List<Client> VoiceList;
+        private List<Client> OPList;
+
         public String Channelname
         {
             get { return this._Channelname; }

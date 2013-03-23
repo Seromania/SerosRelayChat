@@ -1,1 +1,0 @@
-##Seros Relay Chat - SRC

@@ -22,15 +22,25 @@ namespace SerosRelayChatClient
         {
             try
             {
-                this.vonUser = data[0].ToString();
-                this.Command = data[1].ToString();
                 this.Arg = new String[512];
-                for (int i = 0; i < 512; i++)
+                String completeStr = Encoding.UTF8.GetString(data);
+                String[] splitStr = completeStr.Split(' ');
+                int n = 0;
+                foreach (String s in splitStr)
                 {
-                    if (data[i + 2].ToString() != "\r\n")
-                        Arg[i] = data[i + 2].ToString();
-                    else
-                        break;
+                    if (n == 0)
+                    {
+                        this.vonUser = s;
+                        n++;
+                        continue;
+                    }
+                    if (n == 1)
+                    {
+                        this.Command = s;
+                        n++;
+                        continue;
+                    }
+                    this.Arg[n - 2] = s;
                 }
             }
             catch (Exception ex)
