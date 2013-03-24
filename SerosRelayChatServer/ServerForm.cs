@@ -321,7 +321,7 @@ namespace SerosRelayChatServer
             {
                 Socket client = (Socket)ar.AsyncState;
                 client.EndSend(ar);
-                writeLog(">>: Hat gesendet ");
+                writeLog(">>: Hat gesendet \n");
             }
             catch (Exception ex)
             {

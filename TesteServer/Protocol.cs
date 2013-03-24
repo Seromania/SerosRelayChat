@@ -57,7 +57,6 @@ namespace TesteServer
             result.AddRange(Encoding.UTF8.GetBytes(vonUser));
             result.AddRange(Encoding.UTF8.GetBytes(" "));
             result.AddRange(Encoding.UTF8.GetBytes(Command));
-            result.AddRange(Encoding.UTF8.GetBytes(" "));
             foreach (String value in Arg)
             {
                 result.AddRange(Encoding.UTF8.GetBytes(" "));
