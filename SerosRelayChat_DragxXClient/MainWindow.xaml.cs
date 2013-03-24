@@ -170,12 +170,12 @@ namespace SerosRelayChat_DragxXClient
                         this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage(">> " + ConvertSringArrayToString(recievedMsg.Arg)); });
                         break;
                     case "SEND":
-                        this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage(recievedMsg.vonUser, recievedMsg.Command, recievedMsg.Arg); });
+                        this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage(recievedMsg.vonUser + ": " + ConvertSringArrayToString(recievedMsg.Arg)); });
                         break;
                     case "JOIN":
                         if (!isInChannel)
                         {
-                            this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("\n>> Du bist nun in Channel: " + recievedMsg.vonUser.Split(':')[1]); });
+                            this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("\n>> Du schreibst nun in Channel: " + recievedMsg.vonUser.Split(':')[1]); });
                         }
                         break;
                 }               
