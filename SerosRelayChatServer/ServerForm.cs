@@ -117,22 +117,27 @@ namespace SerosRelayChatServer
 
                     case "JOIN":
                         ChnName = recievedMsg.Arg[0];
-                        Userstr = recievedMsg.vonUser.Split(':');
                         //Ist Channel schon vorhanden?
+                        if (ChannelList != null)
+                        {
+                            Client vonClient = Clientlist.First(Client => Client.username == recievedMsg.vonUser);
+                            matchChannel.addClient(vonClient);
+                            break;
+                        }
                         matchChannel = ChannelList.First(Channel => Channel.Channelname == ChnName);
                         //Nein, dann neu öffnen
                         if (matchChannel == null)
                         {
                             Channel chn = new Channel(ChnName);
                             ChannelList.Add(chn);
-                            var vonClient = Clientlist.First(Client => Client.username == Userstr[0]);
+                            Client vonClient = Clientlist.First(Client => Client.username == recievedMsg.vonUser);
                             chn.addClient(vonClient);
                             break;
                         }
                         //Ja, dann Client hinzufügen
                         else
                         {
-                            var vonClient = Clientlist.First(Client => Client.username == Userstr[0]);
+                            Client vonClient = Clientlist.First(Client => Client.username == recievedMsg.vonUser);
                             matchChannel.addClient(vonClient);
                             break;
                         }
@@ -264,6 +269,7 @@ namespace SerosRelayChatServer
                     default:
                         break;
                 }
+                clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(onRecieve), clientSocket);
 
             }
             catch (Exception ex)

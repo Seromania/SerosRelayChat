@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerosRelayChatServer", "Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerosRelayChat_DragxXClient", "SerosRelayChat_DragxXClient\SerosRelayChat_DragxXClient.csproj", "{64ED1E9F-5FC0-4FA0-9349-CAA137D03F5F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesteServer", "TesteServer\TesteServer.csproj", "{BB59B65C-78A5-4060-9A75-DC689697F92B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{64ED1E9F-5FC0-4FA0-9349-CAA137D03F5F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{64ED1E9F-5FC0-4FA0-9349-CAA137D03F5F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{64ED1E9F-5FC0-4FA0-9349-CAA137D03F5F}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB59B65C-78A5-4060-9A75-DC689697F92B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB59B65C-78A5-4060-9A75-DC689697F92B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB59B65C-78A5-4060-9A75-DC689697F92B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BB59B65C-78A5-4060-9A75-DC689697F92B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BB59B65C-78A5-4060-9A75-DC689697F92B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB59B65C-78A5-4060-9A75-DC689697F92B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB59B65C-78A5-4060-9A75-DC689697F92B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB59B65C-78A5-4060-9A75-DC689697F92B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BB59B65C-78A5-4060-9A75-DC689697F92B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BB59B65C-78A5-4060-9A75-DC689697F92B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
