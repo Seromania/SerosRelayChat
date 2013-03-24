@@ -26,6 +26,7 @@ namespace SerosRelayChatServer
         {
             this.socket = socket;
             this.username = username;
+            this.Channellist = new List<Channel>();
         }
     }
 }

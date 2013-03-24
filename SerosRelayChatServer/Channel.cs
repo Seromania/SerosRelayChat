@@ -22,6 +22,10 @@ namespace SerosRelayChatServer
         public Channel(String Channelname)
         {
             this._Channelname = Channelname;
+            this.Clientlist = new List<Client>();
+            this.ModList = new List<Client>();
+            this.VoiceList = new List<Client>();
+            this.OPList = new List<Client>();
         }
 
         public void addClient(Client client)

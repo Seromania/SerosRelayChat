@@ -84,7 +84,7 @@ namespace SerosRelayChatServer
                 
 
                 String Args = ConvertSringArrayToString(recievedMsg.Arg);
-                writeLog(recievedMsg.vonUser + " " + recievedMsg.Command + " "  + Args + "\n");
+                writeLog("<<: " + recievedMsg.vonUser + " " + recievedMsg.Command + " "  + Args + "\n");
                 
                 switch (recievedMsg.Command)
                 {
@@ -116,15 +116,31 @@ namespace SerosRelayChatServer
                         break;
 
                     case "JOIN":
-                        ChnName = recievedMsg.Arg[0];
-                        //Ist Channel schon vorhanden?
+                        ChnName = recievedMsg.Arg[0];  
+
+                        //Keine Channel vorhanden?
                         if (ChannelList != null)
                         {
                             Client vonClient = Clientlist.First(Client => Client.username == recievedMsg.vonUser);
-                            matchChannel.addClient(vonClient);
+                            Channel chn = new Channel(ChnName);
+                            ChannelList.Add(chn);
+                            chn.addClient(vonClient);
+                            
+                            sendingMsg.vonUser = recievedMsg.vonUser + ":" + ChnName;
+                            sendingMsg.Command = "JOIN";
+                            sendingMsg.Arg = new String[] { "" };
+                            message = sendingMsg.ToByte();
+
+                            foreach (Client chnclient in chn.Clientlist)
+                            {
+                                chnclient.socket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), chnclient.socket);
+                            }
+
                             break;
                         }
+                        //Ist Channel schon vorhanden?
                         matchChannel = ChannelList.First(Channel => Channel.Channelname == ChnName);
+
                         //Nein, dann neu öffnen
                         if (matchChannel == null)
                         {
@@ -132,6 +148,17 @@ namespace SerosRelayChatServer
                             ChannelList.Add(chn);
                             Client vonClient = Clientlist.First(Client => Client.username == recievedMsg.vonUser);
                             chn.addClient(vonClient);
+
+                            sendingMsg.vonUser = recievedMsg.vonUser + ":" + ChnName;
+                            sendingMsg.Command = "JOIN";
+                            sendingMsg.Arg = new String[] { "" };
+                            message = sendingMsg.ToByte();
+
+                            foreach (Client chnclient in chn.Clientlist)
+                            {
+                                chnclient.socket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), chnclient.socket);
+                            }
+
                             break;
                         }
                         //Ja, dann Client hinzufügen
@@ -139,6 +166,16 @@ namespace SerosRelayChatServer
                         {
                             Client vonClient = Clientlist.First(Client => Client.username == recievedMsg.vonUser);
                             matchChannel.addClient(vonClient);
+
+                            sendingMsg.vonUser = recievedMsg.vonUser + ":" + ChnName;
+                            sendingMsg.Command = "JOIN";
+                            sendingMsg.Arg = new String[] { "" };
+                            message = sendingMsg.ToByte();
+
+                            foreach (Client chnclient in matchChannel.Clientlist)
+                            {
+                                chnclient.socket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), chnclient.socket);
+                            }
                             break;
                         }
 
@@ -284,6 +321,7 @@ namespace SerosRelayChatServer
             {
                 Socket client = (Socket)ar.AsyncState;
                 client.EndSend(ar);
+                writeLog(">>: Hat gesendet ");
             }
             catch (Exception ex)
             {
