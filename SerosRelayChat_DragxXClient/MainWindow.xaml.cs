@@ -73,6 +73,22 @@ namespace SerosRelayChat_DragxXClient
         /// Neue Chatlog Meldung
         /// </summary>
         /// <param name="text">Zu ändender Text</param>
+        public void addChatLogMessage(string userName, string command, string[] args)
+        {            
+            chatLog.Text += userName + ": ";
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (!args[i].StartsWith("\r\n"))
+                {
+                    chatLog.Text += args[i] + " ";
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
         public void addChatLogMessage(string text)
         {
             chatLog.Text += text + "\n";
@@ -134,7 +150,7 @@ namespace SerosRelayChat_DragxXClient
                 clientSocket.EndReceive(ar);
 
                 Protocol recievedMsg = new Protocol(byteData);
-                this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage(recievedMsg.vonUser + ": " + ConvertSringArrayToString(recievedMsg.Arg)); });
+                this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage(recievedMsg.vonUser, recievedMsg.Command, recievedMsg.Arg); });
 
                 clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(onRecieve), clientSocket);
             }

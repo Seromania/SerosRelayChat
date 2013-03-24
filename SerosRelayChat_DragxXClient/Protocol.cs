@@ -41,6 +41,7 @@ namespace SerosRelayChat_DragxXClient
                         continue;
                     }
                     this.Arg[n - 2] = s;
+                    n++;
                 }
             }
             catch (Exception ex)
@@ -62,6 +63,7 @@ namespace SerosRelayChat_DragxXClient
                 result.AddRange(Encoding.UTF8.GetBytes(" "));
                 result.AddRange(Encoding.UTF8.GetBytes(value));
             }
+            result.AddRange(Encoding.UTF8.GetBytes(" "));
             result.AddRange(Encoding.UTF8.GetBytes("\r\n"));
 
             return result.ToArray();
