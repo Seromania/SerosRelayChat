@@ -180,6 +180,7 @@ namespace SerosRelayChat_DragxXClient
                     case "JOIN":
                         if (!isInChannel)
                         {
+                            this.Dispatcher.Invoke((Action)delegate() { userName = userName + ":" + recievedMsg.vonUser.Split(':')[1]; });
                             this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("\n>> Du schreibst nun in Channel: " + recievedMsg.vonUser.Split(':')[1]); });
                         }
                         break;
@@ -190,7 +191,7 @@ namespace SerosRelayChat_DragxXClient
             catch
             {
                 this.Dispatcher.Invoke((Action)delegate() { clientSocket = null; });
-                this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("Verbindung verloren"); });
+                this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("\nVerbindung verloren"); });
                 this.Dispatcher.Invoke((Action)delegate() { setConnectionLabel("Verbindung verloren"); });
             }
         }
@@ -224,7 +225,7 @@ namespace SerosRelayChat_DragxXClient
             }
             catch
             {
-                this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("Verbindungsfehler"); });
+                this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("\nVerbindungsfehler"); });
                 this.Dispatcher.Invoke((Action)delegate() { setConnectionLabel("Verbindungsfehler"); });
             }
         }
