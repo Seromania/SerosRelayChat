@@ -22,9 +22,10 @@ namespace SerosRelayChat_DragxXClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Socket clientSocket;
+        private Socket clientSocket;
         public string userName;
-        public byte[] byteData = new byte[1024];
+        private byte[] byteData = new byte[1024];
+        private bool isInChannel = false;
 
         public MainWindow()
         {
@@ -91,7 +92,14 @@ namespace SerosRelayChat_DragxXClient
 
         public void addChatLogMessage(string text)
         {
-            chatLog.Text += text.Substring(0, text.IndexOf("\r\n"));
+            if (text.Contains("\r\n"))
+            {
+                chatLog.Text += text.Substring(0, text.IndexOf("\r\n"));
+            }
+            else
+            {
+                chatLog.Text += text;
+            }            
         }
 
         /// <summary>
@@ -163,6 +171,12 @@ namespace SerosRelayChat_DragxXClient
                         break;
                     case "SEND":
                         this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage(recievedMsg.vonUser, recievedMsg.Command, recievedMsg.Arg); });
+                        break;
+                    case "JOIN":
+                        if (!isInChannel)
+                        {
+                            this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("\n>> Du bist nun in Channel: " + recievedMsg.vonUser.Split(':')[1]); });
+                        }
                         break;
                 }               
 
