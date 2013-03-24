@@ -9,3 +9,8 @@
 #ToDo - Server
 - [ ] Protokoll konform
 - [ ] Konfigurierbar 
+
+#ToDo - Client
+- [ ] Client UI
+- [x] Client Protokoll übernehmen
+- [ ] Client Grundfunktionen
