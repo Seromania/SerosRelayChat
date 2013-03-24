@@ -182,6 +182,10 @@ namespace SerosRelayChatServer
                     case "SEND":
                         //Ist User im Channel?
                         Userstr = recievedMsg.vonUser.Split(':');
+                        if (Userstr.Length <= 1)
+                        {
+                            break;
+                        }
                         matchChannel = ChannelList.First(Channel => Channel.Channelname == Userstr[1]);
                         //Ja ist er
                         if (matchChannel.isClientinChn(Userstr[0]))
@@ -192,11 +196,7 @@ namespace SerosRelayChatServer
                             message = sendingMsg.ToByte();
                             foreach (Client chnclient in matchChannel.Clientlist)
                             {
-                                //Allen anderen die Nachricht senden
-                                if (chnclient.socket != clientSocket)
-                                {
-                                    chnclient.socket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), chnclient.socket);
-                                }
+                                chnclient.socket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), chnclient.socket);
                             }
                             break;
                         }
@@ -321,7 +321,7 @@ namespace SerosRelayChatServer
             {
                 Socket client = (Socket)ar.AsyncState;
                 client.EndSend(ar);
-                writeLog(">>: Hat gesendet \n");
+                writeLog(">>: Hat gesendet " + "\n");
             }
             catch (Exception ex)
             {
