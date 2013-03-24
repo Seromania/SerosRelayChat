@@ -91,7 +91,7 @@ namespace SerosRelayChat_DragxXClient
 
         public void addChatLogMessage(string text)
         {
-            chatLog.Text += text + "\n";
+            chatLog.Text += "\n" + text;
         }
 
         /// <summary>
@@ -100,21 +100,22 @@ namespace SerosRelayChat_DragxXClient
         /// <param name="aR">AsyncResult der Verbindung</param>
         private void onConnect(IAsyncResult aR)
         {
-            Socket server = aR.AsyncState as Socket;
-
-            byte[] message = new byte[1024];
-            
-            Protocol sendingMsg = new Protocol();
-
             try
             {
+                Socket server = aR.AsyncState as Socket;
+                server.EndConnect(aR);
+
+                byte[] message = new byte[1024];
+            
+                Protocol sendingMsg = new Protocol();         
+
                 if (server.Connected)
                 {                   
                     sendingMsg.vonUser = userName;
                     sendingMsg.Command = "LOGIN";
                     sendingMsg.Arg = new String[] { "" };
                     message = sendingMsg.ToByte();
-                    server.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), server);
+                    server.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), server);                    
 
                     clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(onRecieve), clientSocket);
 
@@ -125,7 +126,11 @@ namespace SerosRelayChat_DragxXClient
                     this.Dispatcher.Invoke((Action) delegate() { setConnectionLabel("Verbindung fehlgeschlagen"); });
                 }
             }
-            catch { }
+            catch 
+            {
+                this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("Verbindungsfehler"); });
+                this.Dispatcher.Invoke((Action)delegate() { setConnectionLabel("Verbindungsfehler"); });
+            }
         }
 
         private void OnSend(IAsyncResult ar)
@@ -156,6 +161,7 @@ namespace SerosRelayChat_DragxXClient
             }
             catch
             {
+                this.Dispatcher.Invoke((Action)delegate() { clientSocket = null; });
                 this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("Verbindung verloren"); });
                 this.Dispatcher.Invoke((Action)delegate() { setConnectionLabel("Verbindung verloren"); });
             }
@@ -186,11 +192,12 @@ namespace SerosRelayChat_DragxXClient
 
                 message = sendMessage.ToByte();
 
-                clientSocket.BeginReceive(message, 0, message.Length, SocketFlags.None, new AsyncCallback(onRecieve), clientSocket);
+                clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
             }
             catch
             {
-
+                this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage("Verbindungsfehler"); });
+                this.Dispatcher.Invoke((Action)delegate() { setConnectionLabel("Verbindungsfehler"); });
             }
         }
     }
