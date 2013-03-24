@@ -12,5 +12,5 @@
 
 #ToDo - Client
 - [ ] Client UI
-- [ ] Client Protokoll übernehmen
+- [x] Client Protokoll übernehmen
 - [ ] Client Grundfunktionen
