@@ -91,7 +91,7 @@ namespace SerosRelayChat_DragxXClient
 
         public void addChatLogMessage(string text)
         {
-            chatLog.Text += "\n" + text;
+            chatLog.Text += text.Substring(0, text.IndexOf("\r\n"));
         }
 
         /// <summary>
@@ -155,7 +155,16 @@ namespace SerosRelayChat_DragxXClient
                 clientSocket.EndReceive(ar);
 
                 Protocol recievedMsg = new Protocol(byteData);
-                this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage(recievedMsg.vonUser, recievedMsg.Command, recievedMsg.Arg); });
+
+                switch (recievedMsg.Command)
+                {
+                    case "LOGIN":
+                        this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage(">> " + ConvertSringArrayToString(recievedMsg.Arg)); });
+                        break;
+                    case "SEND":
+                        this.Dispatcher.Invoke((Action)delegate() { addChatLogMessage(recievedMsg.vonUser, recievedMsg.Command, recievedMsg.Arg); });
+                        break;
+                }               
 
                 clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(onRecieve), clientSocket);
             }
