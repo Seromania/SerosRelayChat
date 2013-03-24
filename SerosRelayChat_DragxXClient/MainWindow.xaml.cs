@@ -102,6 +102,11 @@ namespace SerosRelayChat_DragxXClient
             }            
         }
 
+        public void addChannelTab(string tabName, string tabHeader)
+        {
+
+        }
+
         /// <summary>
         /// Methode zur Verbindungsherstellung
         /// </summary>
