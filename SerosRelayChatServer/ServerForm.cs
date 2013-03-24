@@ -90,7 +90,7 @@ namespace SerosRelayChatServer
                 {
                     case "LOGIN":
                         //Username schon vorhanden?
-                        matchClient = Clientlist.First(Client => Client.username == recievedMsg.vonUser);
+                        //matchClient = Clientlist.First(Client => Client.username == recievedMsg.vonUser);
                         //Wenn ja REFUSEN
                         if (matchClient != null)
                         {
