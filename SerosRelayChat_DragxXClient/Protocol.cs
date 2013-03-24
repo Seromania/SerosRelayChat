@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SerosRelayChatClient
+namespace SerosRelayChat_DragxXClient
 {
     class Protocol
     {
@@ -52,7 +52,7 @@ namespace SerosRelayChatClient
         public byte[] ToByte()
         {
             List<byte> result = new List<byte>();
-
+            
             result.AddRange(Encoding.UTF8.GetBytes(vonUser));
             result.AddRange(Encoding.UTF8.GetBytes(" "));
             result.AddRange(Encoding.UTF8.GetBytes(Command));
@@ -65,7 +65,7 @@ namespace SerosRelayChatClient
             result.AddRange(Encoding.UTF8.GetBytes("\r\n"));
 
             return result.ToArray();
-
+            
         }
     }
 }
