@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Serosrelaychat : SerosRelayChat - SRC" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Serosrelaychat</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/Seromania/SerosRelayChat">View on GitHub</a>
+
+          <h1 id="project_title">Serosrelaychat</h1>
+          <h2 id="project_tagline">SerosRelayChat - SRC</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/Seromania/SerosRelayChat/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/Seromania/SerosRelayChat/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>Seros Relay Chat - SRC</h2>
+
+<h1>Staff</h1>
+
+<p>-Server: <a href="https://github.com/Seromania" class="user-mention">@Seromania</a> </p>
+
+<p>-Client: <a href="https://github.com/DragxX" class="user-mention">@DragxX</a></p>
+
+<h1>ToDo - Server</h1>
+
+<ul>
+<li>[ ] Protokoll konform</li>
+<li>[ ] Konfigurierbar </li>
+</ul><h1>ToDo - Client</h1>
+
+<ul>
+<li>[ ] Client UI</li>
+<li>[x] Client Protokoll übernehmen</li>
+<li>[ ] Client Grundfunktionen</li>
+</ul><h2>Protokoll</h2>
+
+<p>Ankommende Pakete sind im folgenden Format:</p>
+
+<pre><code>&lt;Username[:Raum]&gt; &lt;Kommando&gt; &lt;Argument&gt; \CR\LF
+</code></pre>
+
+<ul>
+<li>Kommandos haben unterschiedlich viele Argumente. Ein Paket muss mit CR-LF beendet werden.
+Die Lücken zwischen den Username, Kommando und Argumenten sind mit einem Space (0x20) zu trennen.</li>
+<li>Daten werden im UTF-8 Format als Byte Übertragen. </li>
+<li>Usernames dürfen folgende Zeichen NICHT im Namen tragen:
+
+<ul>
+<li>Space (0x20)</li>
+<li>CR oder LF</li>
+</ul>
+</li>
+<li>Der Username System ist dem Server vorbehalten und darf NICHT vergeben werden!</li>
+<li>Usernames dürfen nicht zweimal vorkommen!</li>
+</ul><h2>Kommandos</h2>
+
+<p>LOGIN: Der erste Befehl der kommen muss!</p>
+
+<pre><code>Bsp:
+    vonUser LOGIN
+
+Server-&gt;Client:
+    System LOGIN Begrüßungstext
+
+Ist Username schon vorhanden:
+    System REFUSE Grund
+</code></pre>
+
+<p>SEND:   Sendet eine Nachricht in den Raum. </p>
+
+<pre><code>Bsp: 
+    vonUser:InChannel SEND Dies ist ein Text
+
+Server-&gt;Client:
+    vonUser:InChannel SEND Dies ist ein Text
+
+übergeben wird ein Argument. Der Text wird als ein Argument angesehen
+</code></pre>
+
+<p>WHISPER: Sendet eine Nachricht an die Person im ersten Argument</p>
+
+<pre><code>Bsp:
+    vonUser WHISPER zuUser Dies ist ein Text
+
+Server-&gt;Client:
+    vonUser WHISPER Dies ist ein Text
+</code></pre>
+
+<p>JOIN:    Tritt den Raum im ersten Argument bei</p>
+
+<pre><code>Bsp:
+    vonUser JOIN #Channel
+
+Server-&gt;Client:
+    vonUser:InChannel JOIN
+    #Damit werden die Clients informiert, dass ein neuer User kam
+</code></pre>
+
+<p>LIST: Listet alle Benutzer im Channel auf</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel LIST
+
+Server-&gt;Client:
+    InChannel LIST User(1),User(2),...User(n)
+</code></pre>
+
+<p>KICK:   Kickt den User im ersten Argument</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel KICK zuUser REASON
+
+Server-&gt;Client:
+    zuUser:InChannel LEAVE REASON
+
+    !!Dieser Befehl benötigt MOD-Rechte!!
+</code></pre>
+
+<p>BAN:    Bant den User im ersten Argument</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel BAN zuUser REASON
+
+Server-&gt;Client:
+    zuUser:InChannel LEAVE REASON
+
+    !!Dieser Befehl benötigt OP-Rechte!!
+</code></pre>
+
+<p>MOD:    User im ersten Argument wird Mod</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel MOD zuUser
+
+Server-&gt;Client:
+    zuUser:InChannel NAMECHNG #zuUser
+    Argument ist der neue Name
+
+    !!Dieser Befehl benötigt OP-Rechte!!
+</code></pre>
+
+<p>VOICE:  User im ersten Argument bekommt Voice-Rechte</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel VOICE zuUser
+
+Server-&gt;Client:
+    zuUser:InChannel NAMECHNG +zuUser
+    !!Dieser Befehl benötigt MOD-Rechte!!
+</code></pre>
+
+<p>OP:     User im ersten Argument wird OP</p>
+
+<pre><code>Bsp:
+    zuUser:InChannel OP zuUser
+
+Server-&gt;Client:
+    zuUser:InChannel NAMECHNG @zuUser
+
+    !!Dieser Befehl benötigt OP-Rechte!!
+</code></pre>
+
+<p>UNMOD:  User im ersten Argument wird Mod-Rechten entzogen</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel UNMOD zuUser
+
+Server-Client:
+    zuUser:InChannel NAMECHNG zuUser
+
+    !!Dieser Befehl benötigt OP-Rechte!!
+</code></pre>
+
+<p>DEOP:   User im ersten Argument wird OP-Rechte entzogen</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel DEOP zuUser
+
+Server-&gt;Client:
+    zuUser:InChannel NAMECHNG zuUser
+
+    !!Dieser Befehl benötigt OP-Rechte!!
+</code></pre>
+
+<p>CHNMOD: Channel-Modus wird geändert. Im ersten Argument steht welcher Modus</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel CHNMOD &lt;Flag&gt;
+    Flag:
+        n: Normal Modus (Jeder kann schreiben)
+        v: Voice Modus (Jeder mit Voice kann schreiben)
+        m: Moderator Modus (Jeder mit Moderator kann schreiben)
+
+    !!Dieser Befehl benötigt OP-Rechte!!
+</code></pre>
+
+<p>TOPIC: Zeigt den Topic des Channels an oder setzt es</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel TOPIC
+        Zeigt den TOPIC an
+    vonUser:InChannel TOPIC Neues Topic
+        Setzt den Topic
+
+    !!Dieser Befehl benötigt MOD-Rechte wenn Topic geändert werden soll!!
+
+Server-&gt;Client:
+    InChannel TOPIC TopicNachricht
+</code></pre>
+
+<p>PING:  Sendet eine Ping abfrage mit random Nummer (Server-&gt;Client)</p>
+
+<pre><code>Bsp:
+    SERVER PING 1234 
+</code></pre>
+
+<p>PONG:  Antwort auf Ping mit gegebener Nummer (Client-&gt;Server)</p>
+
+<pre><code>Bsp:
+    vonUser PONG 1234
+</code></pre>
+
+<p>LEAVE: User verlässt den Channel</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel LEAVE Leave Grund
+
+Server-&gt;Client:
+    vonUser:InChannel LEAVE Leave Grund
+</code></pre>
+
+<p>NAMECHNG: User ändert sein Username</p>
+
+<pre><code>Bsp:
+    vonUser:InChannel NAMECHNG vonUserNewName
+
+Server-&gt;Client:
+    vonUser:InChannel NAMECHNG vonUserNewName
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Serosrelaychat maintained by <a href="https://github.com/Seromania">Seromania</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
